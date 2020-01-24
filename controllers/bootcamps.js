@@ -10,7 +10,22 @@ const ErrorResponse = require("../utils/errorResponse.js")
 // @route     GET /api/v1/bootcamps
 // @access    Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  const bootcamps = await Bootcamp.find()
+  // bootcamps?location.state=MA&housing=true
+  // { 'location.state': 'MA', housing: 'true' }
+
+  //bootcamps?averageCost[lte]=10000
+  // { averageCost: { lte: '10000' } }
+
+  let query
+  let queryStr = JSON.stringify(req.query)
+
+  queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
+
+  query = Bootcamp.find(JSON.parse(queryStr))
+  console.log(req.query, " => ", queryStr)
+
+  const bootcamps = await query
+
   res
     .status(200)
     .json({ success: true, count: bootcamps.length, data: bootcamps })
