@@ -14,7 +14,6 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
   // bootcamps?location.state=MA&housing=true
   // { 'location.state': 'MA', housing: 'true' }
-
   //bootcamps?averageCost[lte]=10000
   // { averageCost: { lte: '10000' } }
 
@@ -34,7 +33,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 
   // Find resource
-  query = Bootcamp.find(JSON.parse(queryStr))
+  query = Bootcamp.find(JSON.parse(queryStr)).populate("courses") //limit fields with object
 
   //Select Fieds / format like query(field1 field2)
   if (req.query.select) {
@@ -47,12 +46,13 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     const sortBy = req.query.sort.split(",").join(" ")
     query = query.sort(sortBy)
   } else {
+    //default sorting
     query = query.sort("-createdAt")
   }
 
   // Pagination
   const page = parseInt(req.query.page, 10) || 1
-  const limit = parseInt(req.query.limit, 10) || 1
+  const limit = parseInt(req.query.limit, 10) || 10
   const startIndex = (page - 1) * limit
   const endIndex = page * limit
   const total = await Bootcamp.countDocuments()
@@ -131,11 +131,16 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 // @route     DELETE /api/v1/bootcamps/:id
 // @access    Private
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id)
+  const bootcamp = await Bootcamp.findById(req.params.id)
 
   if (!bootcamp) {
-    return res.status(400).json({ success: false })
+    return next(
+      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+    )
   }
+
+  bootcamp.remove()
+
   res.status(200).json({ success: true, data: bootcamp })
 })
 
@@ -152,7 +157,7 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 
   // Calc distance using radians
   // Divide dist by radius of earth
-  // Earth Radius = 3,963 mi / 6,378 km
+  // Earth Radius =3,963 mi / 6,378 km
   const radius = distance / 3963
 
   const bootcamps = await Bootcamp.find({
