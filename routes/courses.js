@@ -2,7 +2,9 @@ const express = require("express")
 const {
   getCourses,
   getOneCourse,
-  addCourse
+  addCourse,
+  updateCourse,
+  deleteCourse
 } = require("../controllers/courses")
 
 //mergin url parameters
@@ -15,6 +17,11 @@ router
   .get(getCourses)
   .post(addCourse)
 
-router.route("/:id").get(getOneCourse)
+//evtl rename to courseId
+router
+  .route("/:id")
+  .get(getOneCourse)
+  .put(updateCourse)
+  .delete(deleteCourse)
 
 module.exports = router

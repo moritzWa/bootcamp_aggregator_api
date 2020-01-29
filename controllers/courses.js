@@ -3,7 +3,7 @@ const asyncHandler = require("../middleware/async")
 const Course = require("../models/Course")
 const Bootcamp = require("../models/Bootcamp")
 
-// @desc      Get courses
+// @desc      Get courses by bootcamp
 // @route     GET /api/v1/courses
 // @route     GET /api/v1/bootcamps/:bootcampId/courses
 // @access    Public
@@ -69,5 +69,48 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: course
+  })
+})
+
+// @desc      Update course
+// @route     GET /api/v1/courses/:id
+// @access    Private
+exports.updateCourse = asyncHandler(async (req, res, next) => {
+  let course = await Course.findById(req.params.id)
+  if (!course) {
+    return next(
+      new ErrorResponse(`No course with the id of ${req.params.id}`),
+      404
+    )
+  }
+
+  coures = await Course.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  })
+
+  res.status(200).json({
+    success: true,
+    data: course
+  })
+})
+
+// @desc      Delete course
+// @route     GET /api/v1/courses/:id
+// @access    Private
+exports.deleteCourse = asyncHandler(async (req, res, next) => {
+  const course = await Course.findById(req.params.id)
+  if (!course) {
+    return next(
+      new ErrorResponse(`No course with the id of ${req.params.id}`),
+      404
+    )
+  }
+
+  await course.remove()
+
+  res.status(200).json({
+    success: true,
+    data: {}
   })
 })
