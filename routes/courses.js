@@ -14,7 +14,7 @@ const advancedResults = require("../middleware/advancedResults")
 // server.js      aap.use("/api/v1/bootcamps", bootcamps)
 // bootcamps.js + router.use("/:bootcampId/courses", courseRouter)
 const router = express.Router({ mergeParams: true })
-const { protect } = require("../middleware/auth")
+const { protect, authorize } = require("../middleware/auth")
 
 router
   .route("/")
@@ -25,13 +25,13 @@ router
     }),
     getCourses
   )
-  .post(protect, addCourse)
+  .post(protect, authorize("publisher", "admin"), addCourse)
 
 //evtl rename to courseId
 router
   .route("/:id")
   .get(getOneCourse)
-  .put(protect, updateCourse)
-  .delete(protect, deleteCourse)
+  .put(protect, authorize("publisher", "admin"), updateCourse)
+  .delete(protect, authorize("publisher", "admin"), deleteCourse)
 
 module.exports = router
