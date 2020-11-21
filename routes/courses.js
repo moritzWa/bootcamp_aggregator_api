@@ -14,6 +14,8 @@ const advancedResults = require("../middleware/advancedResults")
 // server.js      aap.use("/api/v1/bootcamps", bootcamps)
 // bootcamps.js + router.use("/:bootcampId/courses", courseRouter)
 const router = express.Router({ mergeParams: true })
+
+// add to protected routes
 const { protect, authorize } = require("../middleware/auth")
 
 router

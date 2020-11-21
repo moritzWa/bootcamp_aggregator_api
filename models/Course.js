@@ -70,12 +70,12 @@ CourseSchema.statics.getAverageCost = async function (bootcampId) {
 
 //re-calculate after CRUD
 
-// Call getAverage cost after save
+//  Call getAverage cost after save
 CourseSchema.post("save", function () {
   this.constructor.getAverageCost(this.bootcamp)
 })
 
-// Call getAverage cost after remove
+//  Call getAverage cost after remove
 CourseSchema.pre("remove", function () {
   this.constructor.getAverageCost(this.bootcamp)
 })

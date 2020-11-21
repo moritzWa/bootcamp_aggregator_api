@@ -35,6 +35,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Check for user
   const user = await User.findOne({ email }).select("+password")
 
+  // same reponse to prevent checking if user exist
   if (!user) {
     return next(new ErrorResponse("Invalid credentials", 401))
   }
@@ -65,6 +66,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/v1/auth/updatedetails
 // @access    Private
 exports.updateDetails = asyncHandler(async (req, res, next) => {
+
   const fieldsToUpdate = {
     name: req.body.name,
     email: req.body.email,
@@ -178,6 +180,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.getSignedJwtToken()
 
+  // Expiration calculation
   const options = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
@@ -185,6 +188,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     httpOnly: true,
   }
 
+  // in production add secrue flag/property to cookie
   if (process.env.NODE_ENV === "production") {
     options.secure = true
   }

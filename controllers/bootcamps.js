@@ -33,13 +33,13 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/bootcamps
 // @access    Private
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
-  // Add user to req,body
+  // Add user to req.body from middleware
   req.body.user = req.user.id
 
-  // Check for published bootcamp
+  // Check users published bootcamps
   const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id })
 
-  // If the user is not an admin, they can only add one bootcamp
+  // If the user is not admin, they can only add one bootcamp
   if (publishedBootcamp && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -62,7 +62,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
   if (!bootcamp) {
     return res.status(400).json({ success: false })
   }
-  // Make sure user is bootcamp owner
+  // Make sure user is bootcamp owner and not admin
   if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -99,7 +99,6 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
       )
     )
   }
-
   bootcamp.remove()
 
   res.status(200).json({ success: true, data: bootcamp })

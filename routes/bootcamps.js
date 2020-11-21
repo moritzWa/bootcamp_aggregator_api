@@ -14,17 +14,23 @@ const advancedResults = require("../middleware/advancedResults")
 
 //Include other resource routers
 const courseRouter = require("./courses")
+const reviewRouter = require('./reviews');
+
 
 const router = express.Router()
-//protect before authorize: we use req.user fro protect in authorize
+
+//protect before authorize: we use req.user for protect in authorize
 const { protect, authorize } = require("../middleware/auth")
 
 //Re-route into other resource router
 router.use("/:bootcampId/courses", courseRouter)
+router.use('/:bootcampId/reviews', reviewRouter);
+
 
 router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius)
 
-router.route("/:id/photo").put(protect, bootcampPhotoUpload)
+//only publishers or admins can upload photos
+router.route("/:id/photo").put(protect, authorize("publisher", "admin"), bootcampPhotoUpload)
 
 router
   .route("/")

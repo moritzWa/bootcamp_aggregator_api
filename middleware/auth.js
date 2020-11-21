@@ -7,12 +7,15 @@ const User = require("../models/User")
 exports.protect = asyncHandler(async (req, res, next) => {
   let token
 
+  // "Bearer {token}"
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1]
   }
+
+  // no cookies in testing
 
   // else if(req.cookies.token) {
   //   token = req.cookies.token
@@ -26,12 +29,12 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    // Verify token
+    // Verify token with secret
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
     console.log(decoded)
 
-    //used in authorize
+    //used id from token in authorize
     req.user = await User.findById(decoded.id)
 
     next()
