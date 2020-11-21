@@ -12,7 +12,9 @@ exports.protect = asyncHandler(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
+    // Set token with Bearer token in header
     token = req.headers.authorization.split(" ")[1]
+    // Set token from cookie
   }
 
   // no cookies in testing
@@ -24,7 +26,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   // Make sure token exists
   if (!token) {
     return next(
-      new ErrorResponse("No Token, Not authorize to access this route", 401)
+      new ErrorResponse("No Token, Not authorized to access this route", 401)
     )
   }
 
@@ -41,7 +43,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   } catch (err) {
     return next(
       new ErrorResponse(
-        "Can not verify Token, Not authorize to access this route",
+        "Can not verify Token, Not authorized to access this route",
         401
       )
     )
