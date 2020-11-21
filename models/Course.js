@@ -68,6 +68,7 @@ CourseSchema.statics.getAverageCost = async function (bootcampId) {
   }
 }
 
+//model middleware
 //re-calculate after CRUD
 
 //  Call getAverage cost after save
