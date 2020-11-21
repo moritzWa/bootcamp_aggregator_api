@@ -14,8 +14,12 @@ The documentation of the Interface of this application can be found here: https:
 
 ### Visalization
 
+![Getting Started](bootcamp-aggregator-api-dataschema.png)
+[view in draw.io](https://drive.google.com/file/d/1pzYtUmUjFr9HIVLz4ZO8bSnHZb3LwebA/view?usp=sharing)
 
+### Reviews
 
+To enforce the constrain that each user can only create one review per bootcamp we check the ReviewSchemas collection index.  
 
 ## Usage
 
