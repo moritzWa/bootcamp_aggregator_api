@@ -23,7 +23,7 @@
 [Bootcamp-aggregator-api](https://github.com/moritzWa/bootcamp_aggregator_api) is an application to aggregate and review bootcamps. This document describes the technologies its build on, how to configure and run the application, it's database schema, those particularities and it's main functionality by an example API request instructions. 
 
 ## Used technology
-The application is build with [Node.js](https://nodejs.org/en/), the [Express](https://expressjs.com/) framework and uses MongoDB as a Database. It also utilizes [Mongoose](https://mongoosejs.com/) to verify the database operation.
+The application is build with [Node.js](https://nodejs.org/en/), the [Express](https://expressjs.com/) framework, and uses MongoDB as a Database. It also utilizes [Mongoose](https://mongoosejs.com/) to verify the database operation.
 
 ## Database Schema
 The database schemas resources are:
@@ -94,11 +94,11 @@ This API-request is a get request that returns all document-instances of the Boo
 - ```sort=[Bootcamp-property]``
   - Select a property to sort for. 
 - ```page=[page-number]```
-  - Switsh between the pages of the API-request-return.
+  - Switch between the pages of the API-request-return.
 - ```limit=[page-numbr]```
-  - Specify the number pages e.g. hom many Bootcamps the returns per request.
+  - Specify the of number pages e.g. how many Bootcamps the returns per request.
 - ```[Bootcamp-number-property][[operator]]=[operator-target]```
-  - Limit the request results to to a certain range using the [Comparison Query Operators](https://docs.mongodb.com/manual/reference/operator/query-comparison/): gt|gte|lt|lte|in 
+  - Limit the request results to a certain range using the [Comparison Query Operators](https://docs.mongodb.com/manual/reference/operator/query-comparison/): gt|gte|lt|lte|in 
 
 #### Example usage 
 For all available Bootcamps, 
@@ -108,3 +108,5 @@ For all available Bootcamps,
 - and only show those with a cost of less than or equal to (<=) 10,000$.
 
 ```{{URL}}/api/v1/bootcamps?select=housing,name&sort=city&limit=2&averageCost[lte]='10000'```
+
+
