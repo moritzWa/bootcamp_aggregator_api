@@ -6,7 +6,7 @@
   - [Introduction](#introduction)
   - [Used technology](#used-technology)
   - [Database Schema](#database-schema)
-    - [Database Schema Visalization](#database-schema-visalization)
+    - [Database Schema Visualization](#database-schema-visualization)
     - [Resource types and their special properties](#resource-types-and-their-special-properties)
       - [Bootcamps](#bootcamps)
       - [Reviews](#reviews)
@@ -32,7 +32,7 @@ The database schemas resources are:
 - Review
 - User
 
-### Database Schema Visalization
+### Database Schema Visualization
 ![Getting Started](bootcamp-aggregator-api-dataschema.png)
 [view in draw.io](https://drive.google.com/file/d/1pzYtUmUjFr9HIVLz4ZO8bSnHZb3LwebA/view?usp=sharing)
 
