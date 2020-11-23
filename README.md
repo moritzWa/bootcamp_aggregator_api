@@ -66,7 +66,7 @@ npm start
 
 ## Example database seeder
 
-To seed the database with users, Bootcamps, Courses, and Reviews with examplary data from the "\_data" folder, run
+To seed the database with users, Bootcamps, Courses, and Reviews with exemplary data from the "\_data" folder, run
 
 ```
 # Destroy all data
