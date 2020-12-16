@@ -42,7 +42,7 @@ The database schemas resources are:
  Bootcamps have a slug that is created with the package [slugify](https://www.npmjs.com/package/slugify). This slug can be used to display the Bootcamp's url as a path in a frontend application. It is computed before the creation of the Bootcamp using [Middleware](https://mongoosejs.com/docs/middleware.html). 
 
 #### Reviews
-A function in the ReviewModel enforces the constraint that each user can only create one review per Bootcamp by a [compound index](https://docs.mongodb.com/manual/core/index-compound/) of the User and Bootcamp collections.
+A function in the ReviewModel enforces the constraint that each user can only create one review per Bootcamp by a [compound index](https://docs.mongodb.com/manual/core/index-compound/) of the User and Bootcamp collections. This enforcement is done by using the [Unique Index Property](https://docs.mongodb.com/manual/indexes/#unique-indexes).
 
 ## Usage
 
